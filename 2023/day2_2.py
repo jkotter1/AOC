@@ -15,12 +15,15 @@ class Game:
 
         self.power = 1
         for x in list(kwargs['mc'].values()):
-            self.power * x 
-        
+            self.power = self.power * x 
+        #print(self.power)
+
+        for color in list(kwargs['mc'].keys()):
+            kwargs['mc'][color] = 0 
 
 
 if __name__ == "__main__":
-    with open('test_input2_1.txt', 'r') as file:
+    with open('input2_1.txt', 'r') as file:
         lines = [line.rstrip() for line in file]
     
     power_sum = 0
@@ -32,7 +35,6 @@ if __name__ == "__main__":
     }
     
     for line in lines:
-        curr_game = Game(line, mc=max_colors)
-        power_sum += curr_game.id
-    
+        power_sum += Game(line, mc=max_colors).power
+         
     print(power_sum)
