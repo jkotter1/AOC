@@ -1,11 +1,11 @@
-with open('2023/test_input1_1.txt', 'r') as file:
+with open('2023/input1_1.txt', 'r') as file:
     lines = [line.rstrip() for line in file]
 
 val_sum = 0
 num_words = {'one':1, 'two':2, 'three':3, 'four':4, 'five':5, 'six':6, 'seven':7, 'eight':8, 'nine':9}
 
 for line in lines:
-    nums = [[0,0],[0,0]]
+    nums = [[len(line)-1,0],[0,0]]
     
     for index, char in enumerate(line):
         if char.isdigit():
@@ -22,7 +22,9 @@ for line in lines:
             last_word_index = len(line) - rev_num_check - len(word)
             if last_word_index > nums[1][0]:
                 nums[1] = [last_word_index, num_words[word]]
-        
+
+    #print(10*nums[0][1] + nums[1][1])
+
     val_sum += 10*nums[0][1] + nums[1][1]
 
     print(val_sum)
