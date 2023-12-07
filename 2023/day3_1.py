@@ -7,15 +7,15 @@ def is_special_char(char):
 def is_part_num (lines, row, start_index, end_index):
     
     start_search = max(start_index - 1, 0)
-    end_search = min(end_index + 2, len(lines[row]) - 1)
-    search_lines = [lines[i] for i in range(max(row - 1, 0), min(row + 2, len(lines) - 1))]
+    end_search = min(end_index + 2, len(lines[row]))
+    search_lines = [lines[i] for i in range(max(row - 1, 0), min(row + 2, len(lines)))]
     
     search_area = [line[start_search : end_search] for line in search_lines]
 
     for line in search_area:
         for char in line:
             if is_special_char(char):
-                return True
+                    return True
     
     return False
 
@@ -41,7 +41,7 @@ if __name__ == "__main__":
                     end_ind = index - 1
 
                 if is_part_num(lines, row, start_ind, end_ind):
-                    print(line[start_ind : index])
+                    print(line[start_ind : index])#cuts off digit if it is the last char in line
                     part_num_sum += int(line[start_ind : index])
                 
                 in_num = False
