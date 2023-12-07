@@ -20,7 +20,7 @@ def is_part_num (lines, row, start_index, end_index):
     return False
 
 if __name__ == "__main__":
-    with open('2023/test_input3_1.txt', 'r') as file:
+    with open('2023/input3_1.txt', 'r') as file:
         lines = [line.rstrip() for line in file]
 
     part_num_sum = 0
@@ -41,8 +41,8 @@ if __name__ == "__main__":
                     end_ind = index - 1
 
                 if is_part_num(lines, row, start_ind, end_ind):
-                    print(line[start_ind : index])#cuts off digit if it is the last char in line
-                    part_num_sum += int(line[start_ind : index])
+                    print(line[start_ind : end_ind + 1])
+                    part_num_sum += int(line[start_ind : end_ind+1])
                 
                 in_num = False
     
