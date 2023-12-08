@@ -28,16 +28,27 @@ def find_nums(lines): #Returns a list for each line of the file with [start_inde
 
     return nums_by_line
 
+class SearchArea:
+    def __init__(self, lines, gear_line, gear_index):
+        self.search_lines = [ i for i in range( max(0, gear_line - 1), min(len(lines), gear_line + 2) ) ]
+        self.search_indices = [ i for i in range( max (0, gear_index - 1), min(len(lines[0]), gear_index + 2) ) ]
+
 if __name__ == "__main__":
     with open('2023/test_input3_1.txt', 'r') as file:
         lines = [line.rstrip() for line in file]
 
     num_list = find_nums(lines)
 
-    for line in lines:
+    for line_index, line in enumerate(lines):
         gear_count = 0
-        for char in line:
+        for char_index, char in enumerate(line):
             if char == '*':
-                gear_count +=1
-        print(gear_count)
+                curr_search = SearchArea(lines, line_index, char_index)
+                print(curr_search.search_lines)
+                print(curr_search.search_indices)
+
+                for search_line in curr_search.search_lines:
+                    for search_index in curr_search.search_indices:
+                        for num in num_list[search_line]:
+                            pass
 
