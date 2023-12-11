@@ -34,21 +34,33 @@ class SearchArea:
         self.search_indices = [ i for i in range( max (0, gear_index - 1), min(len(lines[0]), gear_index + 2) ) ]
 
 if __name__ == "__main__":
-    with open('2023/test_input3_1.txt', 'r') as file:
+    with open('2023/input3_1.txt', 'r') as file:
         lines = [line.rstrip() for line in file]
 
     num_list = find_nums(lines)
+    gear_ratio_sum = 0
 
     for line_index, line in enumerate(lines):
-        gear_count = 0
+        #gear_count = 0
         for char_index, char in enumerate(line):
             if char == '*':
                 curr_search = SearchArea(lines, line_index, char_index)
-                print(curr_search.search_lines)
-                print(curr_search.search_indices)
+
+                adjacent_nums = []
 
                 for search_line in curr_search.search_lines:
                     for search_index in curr_search.search_indices:
                         for num in num_list[search_line]:
-                            pass
+                            if search_index in num:
+                                if [search_line, num] not in adjacent_nums:
+                                    adjacent_nums.append([search_line, num])
 
+                if len(adjacent_nums) == 2:
+                    gear_ratio = 1
+                    for adj_num in adjacent_nums:
+                        gear_num = int(''.join(lines[adj_num[0]][i] for i in range(adj_num[1][0],adj_num[1][1]+1)))
+                        gear_ratio *= gear_num 
+                    print(gear_ratio)
+                    gear_ratio_sum += gear_ratio
+
+    [print(gear_ratio_sum)]
