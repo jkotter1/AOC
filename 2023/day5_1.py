@@ -1,8 +1,14 @@
 def int_list(int_str):
     return [ int(x) for x  in int_str.strip().split(' ') ]
 
+class mapping:
+    def __init__(self, almanac_listing):
+        self.range_min = almanac_listing[1]
+        self.range_max = almanac_listing[1] + almanac_listing[2]
+        self.conversion_val = almanac_listing[0] - almanac_listing[1]
+
 if __name__ == "__main__":
-    with open('2023/test_input5.txt', 'r') as file:
+    with open('2023/input5.txt', 'r') as file:
         lines = [line.rstrip() for line in file]
 
     seeds = int_list(lines[0].split(':')[1])
@@ -17,6 +23,21 @@ if __name__ == "__main__":
         elif line == '':
             pass
         else:
-            map_list[map_counter].append(int_list(line))
+            map_list[map_counter].append(mapping(int_list(line)))
         
-    print(map_list)
+    #for section in map_list:
+    #    for mapping in section:
+    #        print(str(mapping.range_min)+', '+str(mapping.range_max)+', '+str(mapping.conversion_val))
+
+    location_list = []
+
+    for seed in seeds:
+        #location_val = seed
+        for section in map_list:
+            for mapping in section:
+                if mapping.range_min <= seed <= mapping.range_max:
+                    seed += mapping.conversion_val
+                    break
+        location_list.append(seed)
+
+    print(min(location_list))
