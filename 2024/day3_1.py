@@ -23,4 +23,10 @@ def multNums(lines):
             runningTotal += num1 * num2
             
     return runningTotal
+    
+if __name__ == "__main__":
+    lines = getInput()
+    total = multNums(lines)
+    
+    print(total)
         
