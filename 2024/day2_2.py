@@ -1,20 +1,26 @@
 def getInput():
-    with open('inpu t2.txt', 'r') as file:
+    with open('input2.txt', 'r') as file:
         lines = [line.rstrip() for line in file]
 
-    lines = ["7 6 4 2 1", "1 2 7 8 9", "9 7 6 2 1", "1 3 2 4 5", "8 6 4 4 1", "1 3 6 7 9"]
+    #lines = ["7 6 4 2 1", "1 2 7 8 9", "9 7 6 2 1", "1 3 2 4 5", "8 6 4 4 1", "1 3 6 7 9"]
     return lines
 
-safe_qty = 0
-record = []
-
-for line in lines:
-    report = [int(i) for i in line.split()]
-    report_safe = False
+def countSafeReports(lines):
+    safe_qty = 0
+    for line in lines:
+        report = [int(i) for i in line.split()]
+        isSafe = testSafety(report)
+        if isSafe:
+            safe_qty += 1
+    return safe_qty
+    
+def testSafety(report, *args): #pass index to exclude as *args
+    isSafe = True
     accepted_changes = []
-
-    #if report == sorted(report) or report == sorted(report, reverse=True):
-    #    report_safe = True
+    
+    if args != ():
+        removedVal = report[args[0]]
+        report.pop(args[0])
 
     for i in range(len(report)-1):
         change = report[i] - report[i+1]
@@ -26,19 +32,19 @@ for line in lines:
                 accepted_changes = [-1,-2,-3]
 
         if change not in accepted_changes:
-            #trigger Problem Dampener
+            isSafe = False
+            if args == ():
+                #trigger Problem Dampener once
+                for i in range(len(report)):
+                    isSafe = testSafety(report, i)
+                    if isSafe:
+                        break
 
-    accepted_changes = []
-    
-    if report_safe:
-        safe_qty += 1
-
-print(safe_qty)
+    if args != ():
+        report.insert(args[0], removedVal)
+    return isSafe
 
 if __name__ == "__main__":
+    lines = getInput()
 
-            
-
-
-
-            
+    print(countSafeReports(lines))
