@@ -4,10 +4,10 @@ def getInput():
     with open('input5b.txt', 'r') as file:
         updates = [line.rstrip() for line in file]
     
-    with open('testinput5a.txt', 'r') as file:
+    '''with open('testinput5a.txt', 'r') as file:
         rules = [line.rstrip() for line in file]
     with open('testinput5b.txt', 'r') as file:
-        updates = [line.rstrip() for line in file]
+        updates = [line.rstrip() for line in file]'''
 
     return rules, updates
     
@@ -29,7 +29,11 @@ def checkUpdate(update, ruleDict):
     
     for ind, page in enumerate(updateList):
         for j in range(ind+1, len(updateList)):
-            if updateList[j] not in ruleDict[page]:
+            try:
+                if updateList[j] not in ruleDict[page]:
+                    inOrder = False
+                    break
+            except KeyError:
                 inOrder = False
                 break
         if not inOrder:
@@ -43,9 +47,10 @@ def logMidVals(rules, updates):
     
     for update in updates:
         if checkUpdate(update, ruleDict):
-            midValSum += update[int(len(update)/2)]
+            midValSum += int(update.split(",")[int(len(update.split(","))/2)])
     
     return midValSum
 
 if __name__ == "__main__":
-    print(logMidVals(getInput()))
+    rules, updates = getInput()
+    print(logMidVals(rules, updates))
