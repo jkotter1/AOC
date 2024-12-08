@@ -11,3 +11,41 @@ def getInput():
 
     return rules, updates
     
+def makeRuleDict(rules):
+    ruleDict = {}
+    
+    for rule in rules:
+        pageNum1, pageNum2 = [int(x) for x in rule.split("|")]
+        if pageNum1 not in ruleDict:
+            ruleDict[pageNum1]=[pageNum2]
+        else:
+            ruleDict[pageNum1].append(pageNum2)
+            
+    return ruleDict
+    
+def checkUpdate(update, ruleDict): 
+    updateList = [int(x) for x in update.split(",")] #each update as list of ints
+    inOrder = True
+    
+    for ind, page in enumerate(updateList):
+        for j in range(ind+1, len(updateList)):
+            if updateList[j] not in ruleDict[page]:
+                inOrder = False
+                break
+        if not inOrder:
+            break
+    
+    return inOrder
+
+def logMidVals(rules, updates):
+    midValSum = 0
+    ruleDict = makeRuleDict(rules)
+    
+    for update in updates:
+        if checkUpdate(update, ruleDict):
+            midValSum += update[int(len(update)/2)]
+    
+    return midValSum
+
+if __name__ == "__main__":
+    print(logMidVals(getInput()))
