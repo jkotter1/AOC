@@ -3,7 +3,9 @@ import time
 def getInput():
     with open('input6.txt', 'r') as file:
         labMap = [line.rstrip() for line in file]
-    
+    #with open('testinput6.txt', 'r') as file:
+    #    labMap = [line.rstrip() for line in file]
+
     return labMap
     
 def findStart(labMap):
@@ -24,7 +26,10 @@ def moveGuard(currCoord, faceDir, labMap):
         case "right":
             moveDir = [0,1] 
     
-    labMap[currCoord[0]][currCoord[1]] = "X"
+    newRow = list(labMap[currCoord[0]])
+    newRow[currCoord[1]] = "X"
+    labMap[currCoord[0]] = "".join(newRow)
+
     # Element-wise addition
     newCoord = [a + b for a, b in zip(currCoord, moveDir)]
     
@@ -39,10 +44,10 @@ def moveGuard(currCoord, faceDir, labMap):
         return newCoord, faceDir, labMap, False
         
     
-def checkExit(coord, rows, cols):
+def checkExit(coord, lenRow, lenCol):
     if -1 in coord: #off top or left of map
         return True
-    elif len(rows) in coord or len(cols) in coord:
+    elif lenRow in coord or lenCol in coord:
         return True
     else:
         return False
@@ -58,7 +63,7 @@ def turnGuard(faceDir):
         case "right":
             faceDir = "down" 
             
-    reurn faceDir
+    return faceDir
     
 def countXs(lab):
     xCnt=0
@@ -72,11 +77,12 @@ if __name__ == "__main__":
     exited = False
     labMap = getInput()
     currCoord = findStart(labMap)
+    faceDir = "up"
     
     while not exited:
-        currCord, faceDir, labMap, exited = moveGuard(currCord, faceDir, labMap)
-        print(labMap)
-        time.sleep(0.5)
+        currCoord, faceDir, labMap, exited = moveGuard(currCoord, faceDir, labMap)
+        #print(labMap)
+        #time.sleep(0.5)
     
     print(countXs(labMap))
         
