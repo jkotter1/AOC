@@ -50,7 +50,24 @@ def purgeInOrder(ruleDict, updates):
     return updates
 
 def fixOrder(ruleDict, outOfOrder):
-    pass
+    
+    for row in outOfOrder:
+        updateList = [int(x) for x in row.split(",")] #each update as list of ints
+        
+        for ind, page in enumerate(updateList):
+            if page not in ruleDict: #If not listed in the rules, put at the end 
+                updateList.pop(ind)
+                updateList.append(page)
+            ListSorted = False
+            
+            while not ListSorted
+                ListSorted =True
+                for j in range(ind+1, len(updateList)):
+                    if updateList[j] not in ruleDict[page]:
+                        ListSorted = False
+                        updateList[ind] = updateList[j]
+                        updateList[j] = page
+                        
 
 
 if __name__ == "__main__":
