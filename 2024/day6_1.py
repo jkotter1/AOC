@@ -60,6 +60,13 @@ def turnGuard(faceDir):
             
     reurn faceDir
     
+def countXs(lab):
+    xCnt=0
+    
+    for row in lab:
+        xCnt += row.count("X")
+        
+    return xCnt
     
 if __name__ == "__main__":
     exited = False
@@ -71,6 +78,6 @@ if __name__ == "__main__":
         print(labMap)
         time.sleep(0.5)
     
-    #CountXs()
+    print(countXs(labMap))
         
         
