@@ -1,5 +1,7 @@
+import time
+
 def getInput():
-    with open('input5a.txt', 'r') as file:
+    with open('input6.txt', 'r') as file:
         labMap = [line.rstrip() for line in file]
     
     return labMap
@@ -25,10 +27,25 @@ def moveGuard(currCoord, faceDir, labMap):
     labMap[currCoord[0]][currCoord[1]] = "X"
     # Element-wise addition
     newCoord = [a + b for a, b in zip(currCoord, moveDir)]
-    checkExit(newCoord)
     
-def checkExit(coord):
-    if (-1 in coord) 
+    if checkExit(newCoord, len(labMap), len(labMap[0])):
+        return newCoord, faceDir, labMap, True
+    
+    elif labMap[newCoord[0]][newCoord[1]] == "#":
+        faceDir = turnGuard(faceDir)
+        return currCoord, faceDir, labMap, False
+        
+    else:
+        return newCoord, faceDir, labMap, False
+        
+    
+def checkExit(coord, rows, cols):
+    if -1 in coord: #off top or left of map
+        return True
+    elif len(rows) in coord or len(cols) in coord:
+        return True
+    else:
+        return False
     
 def turnGuard(faceDir):
     match faceDir:
@@ -45,4 +62,15 @@ def turnGuard(faceDir):
     
     
 if __name__ == "__main__":
-    print(logMidVals(getInput()))
+    exited = False
+    labMap = getInput()
+    currCoord = findStart(labMap)
+    
+    while not exited:
+        currCord, faceDir, labMap, exited = moveGuard(currCord, faceDir, labMap)
+        print(labMap)
+        time.sleep(0.5)
+    
+    #CountXs()
+        
+        
