@@ -4,11 +4,11 @@ def getInput():
     with open('input5b.txt', 'r') as file:
         updates = [line.rstrip() for line in file]
     
-    '''with open('testinput5a.txt', 'r') as file:
+    with open('testinput5a.txt', 'r') as file:
         rules = [line.rstrip() for line in file]
     with open('testinput5b.txt', 'r') as file:
-        updates = [line.rstrip() for line in file]'''
-
+        updates = [line.rstrip() for line in file]
+        
     return rules, updates
     
 def makeRuleDict(rules):
@@ -41,16 +41,21 @@ def checkUpdate(update, ruleDict):
     
     return inOrder
 
-def logMidVals(rules, updates):
-    midValSum = 0
-    ruleDict = makeRuleDict(rules)
+def purgeInOrder(ruleDict, updates):
     
-    for update in updates:
+    for ind, update in enumerate(updates):
         if checkUpdate(update, ruleDict):
-            midValSum += int(update.split(",")[int(len(update.split(","))/2)])
+            updates.pop(ind)
     
-    return midValSum
+    return updates
+
+def fixOrder(ruleDict, outOfOrder):
+    pass
+
 
 if __name__ == "__main__":
     rules, updates = getInput()
-    print(logMidVals(rules, updates))
+    ruleDict = makeRuleDict(rules)
+    toFix = purgeInOrder(ruleDict, updates)
+    
+    
