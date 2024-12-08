@@ -50,8 +50,9 @@ def purgeInOrder(ruleDict, updates):
     return updates
 
 def fixOrder(ruleDict, outOfOrder):
+    orderedUpdates = []
     
-    for row in outOfOrder:
+    for rowIndex, row in enumerate(outOfOrder):
         updateList = [int(x) for x in row.split(",")] #each update as list of ints
         
         for ind, page in enumerate(updateList):
@@ -67,6 +68,9 @@ def fixOrder(ruleDict, outOfOrder):
                         ListSorted = False
                         updateList[ind] = updateList[j]
                         updateList[j] = page
+        orderedUpdates.append(updateList)
+        
+    return orderedUpdates
                         
 
 
