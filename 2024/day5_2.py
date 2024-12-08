@@ -73,10 +73,18 @@ def fixOrder(ruleDict, outOfOrder):
     return orderedUpdates
                         
 
+def logMidVals(updates):
+    midValSum = 0
+    
+    for update in updates:
+        midValSum += int(update.split(",")[int(len(update.split(","))/2)])
+    
+    return midValSum
 
 if __name__ == "__main__":
     rules, updates = getInput()
     ruleDict = makeRuleDict(rules)
     toFix = purgeInOrder(ruleDict, updates)
-    
+    fixedOrder = fixOrder(ruleDict, toFix)
+    print(logMidVals(fixedOrder))
     
