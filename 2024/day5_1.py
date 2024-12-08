@@ -1,7 +1,13 @@
 def getInput():
-    with open('input5.txt', 'r') as file:
-        lines = [line.rstrip() for line in file]
+    with open('input5a.txt', 'r') as file:
+        rules = [line.rstrip() for line in file]
+    with open('input5b.txt', 'r') as file:
+        updates = [line.rstrip() for line in file]
+    
+    with open('testinput5a.txt', 'r') as file:
+        rules = [line.rstrip() for line in file]
+    with open('testinput5b.txt', 'r') as file:
+        updates = [line.rstrip() for line in file]
 
-    #lines = ["MMMSXXMASM", "MSAMXMSMSA", "AMXSXMAAMM", "MSAMASMSMX", "XMASAMXAMM", "XXAMMXXAMA", "SMSMSASXSS", "SAXAMASAAA", "MAMMMXMMMM", "MXMXAXMASX"]
-
-    return lines
+    return rules, updates
+    
