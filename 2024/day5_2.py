@@ -4,10 +4,10 @@ def getInput():
     with open('input5b.txt', 'r') as file:
         updates = [line.rstrip() for line in file]
     
-    with open('testinput5a.txt', 'r') as file:
+    '''with open('testinput5a.txt', 'r') as file:
         rules = [line.rstrip() for line in file]
     with open('testinput5b.txt', 'r') as file:
-        updates = [line.rstrip() for line in file]
+        updates = [line.rstrip() for line in file]'''
         
     return rules, updates
     
@@ -42,11 +42,15 @@ def checkUpdate(update, ruleDict):
     return inOrder
 
 def purgeInOrder(ruleDict, updates):
-    
+    indicesToPurge = []
+
     for ind, update in enumerate(updates):
         if checkUpdate(update, ruleDict):
-            updates.pop(ind)
+            indicesToPurge.append(ind)
     
+    for i in reversed(indicesToPurge):
+        updates.pop(i)
+
     return updates
 
 def fixOrder(ruleDict, outOfOrder):
@@ -60,11 +64,11 @@ def fixOrder(ruleDict, outOfOrder):
                 updateList.pop(ind)
                 updateList.append(page)
             ListSorted = False
-            
-            while not ListSorted
+#gets stuck on non-example data
+            while not ListSorted:
                 ListSorted =True
                 for j in range(ind+1, len(updateList)):
-                    if updateList[j] not in ruleDict[page]:
+                    if updateList[j] not in ruleDict[updateList[ind]]:
                         ListSorted = False
                         updateList[ind] = updateList[j]
                         updateList[j] = page
@@ -77,7 +81,7 @@ def logMidVals(updates):
     midValSum = 0
     
     for update in updates:
-        midValSum += int(update.split(",")[int(len(update.split(","))/2)])
+        midValSum += int(update[int(len(update)/2)])
     
     return midValSum
 
