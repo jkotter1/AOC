@@ -59,8 +59,10 @@ def fixOrder(ruleDict, outOfOrder):
     for rowIndex, row in enumerate(outOfOrder):
         nums = [int(x) for x in row.split(",")] #each update as list of ints
         orderedUpdates = [None] * len(nums)
-        
-        while ListSorted == False
+        ListSorted = False
+
+        while ListSorted == False:
+            orderedUpdates = []
             ListSorted = True
             for ind, pageNum in enumerate(nums):
                 orderedUpdates[ind] = pageNum
