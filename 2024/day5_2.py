@@ -54,24 +54,33 @@ def purgeInOrder(ruleDict, updates):
     return updates
 
 def fixOrder(ruleDict, outOfOrder):
-    orderedUpdates = []
+    
     
     for rowIndex, row in enumerate(outOfOrder):
-        updateList = [int(x) for x in row.split(",")] #each update as list of ints
+        nums = [int(x) for x in row.split(",")] #each update as list of ints
+        orderedUpdates = [None] * len(nums)
         
-        for ind, page in enumerate(updateList):
-            if page not in ruleDict: #If not listed in the rules, put at the end 
-                updateList.pop(ind)
-                updateList.append(page)
-            ListSorted = False
-#gets stuck on non-example data
-            while not ListSorted:
-                ListSorted =True
-                for j in range(ind+1, len(updateList)):
-                    if updateList[j] not in ruleDict[updateList[ind]]:
-                        ListSorted = False
-                        updateList[ind] = updateList[j]
-                        updateList[j] = page
+        while ListSorted == False
+            ListSorted = True
+            for ind, pageNum in enumerate(nums):
+                orderedUpdates[ind] = pageNum
+                
+                try: 
+                     for j in range(ind+1, len(nums)):
+                        if nums[j] not in ruleDict[pageNum]:
+                            ListSorted = False
+                            orderedUpdates[ind] = nums[j]
+                            orderedUpdates[j] = pageNum
+                            break
+                except KeyError:
+                    orderedUpdates[len(nums)-1] = pageNum #If not listed in the rules, put at the end
+                    ListSorted = False
+                    for j in range(ind+1, len(nums)):
+                        orderedUpdates[j-1] = nums[j]
+                    break
+                        
+        nums = orderedUpdates
+                    
         orderedUpdates.append(updateList)
         
     return orderedUpdates
