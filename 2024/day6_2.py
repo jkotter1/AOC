@@ -1,8 +1,8 @@
 def getInput():
     with open('input6.txt', 'r') as file:
         labMap = [line.rstrip() for line in file]
-    with open('testinput6.txt', 'r') as file:
-        labMap = [line.rstrip() for line in file]
+    #with open('testinput6.txt', 'r') as file:
+    #    labMap = [line.rstrip() for line in file]
     return labMap
     
 def findStartAndBlocks(labMap):
@@ -54,26 +54,27 @@ def moveGuard(**kwargs):
         case "right":
             moveDir = [0,1] 
 
-    # Element-wise addition
+    # Change guard coordinate
     newCoord = [a + b for a, b in zip(currCoord, moveDir)]
-    
+    if newCoord in blockCoords: #if guard hits block, turn and don't progress
+        faceDir = turnGuard(faceDir)
+        newCoord = currCoord
+
     if [newCoord, faceDir] in locLog: #if guard has been at this coord facing the same direction, guard has looped
-        return {'looped': True}
+        return {'looped': True, 'exited': True}
+    
+    elif checkExit(newCoord, len(labMap), len(labMap[0])):
+        return {'looped': False, 'exited': True, 'locLog':locLog}
+    
     else:
         locLog.append([newCoord, faceDir])
     
-    if checkExit(newCoord, len(labMap), len(labMap[0])):
-        return {'looped': False, 'exited': True}
-    
-    elif newCoord in blockCoords: #if guard hits block, turn and don't progress
-        faceDir = turnGuard(faceDir)
-        newCoord = currCoord
-    
-    return {'currCoord': currCoord, 'faceDir': faceDir, 'blockCoords': blockCoords, 'locLog': locLog, 'labMap': labMap, 'looped': False, 'exited': False}
+    return {'currCoord': newCoord, 'faceDir': faceDir, 'blockCoords': blockCoords, 'locLog': locLog, 'labMap': labMap, 'looped': False, 'exited': False}
 
 
 if __name__ == "__main__":
     exited = False
+    looped = False
     labMap = getInput()
     startCoord, blockCoords = findStartAndBlocks(labMap)
 
@@ -81,7 +82,28 @@ if __name__ == "__main__":
     initialRun = {'currCoord':startCoord, 'faceDir': "up", 'blockCoords':blockCoords, 'locLog':[], 'labMap':labMap}
     while not exited:
         initialRun = moveGuard(**initialRun)
+        exited = initialRun['exited']
         
-    print(initialRun['locLog'])
-        
-        
+    #print(initialRun['locLog'])
+    possibleNewBlocks = initialRun['locLog']
+    newBlockLog = []
+
+    for ind, newBlock in enumerate(possibleNewBlocks):
+        print("Testing Block " + str(ind) + " of " + str(len(possibleNewBlocks)))
+        exited = False
+        looped = False
+        newBlockCoords = blockCoords + [newBlock[0]]  
+        currRun = {'currCoord':startCoord, 'faceDir': "up", 'blockCoords':newBlockCoords, 'locLog':[], 'labMap':labMap}
+
+        while not exited:
+            currRun = moveGuard(**currRun)
+            exited = currRun['exited']
+            if currRun['looped']:
+                newBlockLog.append(newBlock[0])
+    
+    newBlockLocs = []
+    for blockLoc in newBlockLog:
+        if blockLoc not in newBlockLocs:
+            newBlockLocs.append(blockLoc)
+    
+    print(len(newBlockLocs))
