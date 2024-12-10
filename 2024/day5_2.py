@@ -62,7 +62,7 @@ def fixOrder(ruleDict, outOfOrder):
         ListSorted = False
 
         while ListSorted == False:
-            orderedUpdates = []
+            
             ListSorted = True
             for ind, pageNum in enumerate(nums):
                 orderedUpdates[ind] = pageNum
@@ -72,8 +72,6 @@ def fixOrder(ruleDict, outOfOrder):
                         if nums[j] not in ruleDict[pageNum]:
                             ListSorted = False
                             orderedUpdates[ind] = nums[j]
-                            orderedUpdates[j] = pageNum
-                            break
                 except KeyError:
                     orderedUpdates[len(nums)-1] = pageNum #If not listed in the rules, put at the end
                     ListSorted = False
