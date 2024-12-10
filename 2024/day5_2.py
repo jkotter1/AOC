@@ -66,7 +66,6 @@ def fixOrder(ruleDict, outOfOrder):
             ListSorted = True
             for ind, pageNum in enumerate(nums):
                 restart = False
-                #orderedUpdates[ind] = pageNum
                 
                 try: 
                       for j in range(ind+1, len(nums)):
@@ -80,19 +79,12 @@ def fixOrder(ruleDict, outOfOrder):
                     nums[ind] = nums[len(nums)-1] 
                     nums[len(nums)-1] = pageNum #If not listed in the rules, put at the end
                     ListSorted = False
-                    #for j in range(ind+1, len(nums)):
-                    #    nums[j-1] = nums[j]
-                    #break
                 if restart == True:
                     break
                         
-            #nums = orderedUpdates
-                    
         orderedUpdates.append(nums)
-        
     return orderedUpdates
                         
-
 def logMidVals(updates):
     midValSum = 0
     
