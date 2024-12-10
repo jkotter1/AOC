@@ -4,10 +4,10 @@ def getInput():
     with open('input5b.txt', 'r') as file:
         updates = [line.rstrip() for line in file]
     
-    '''with open('testinput5a.txt', 'r') as file:
-        rules = [line.rstrip() for line in file]
-    with open('testinput5b.txt', 'r') as file:
-        updates = [line.rstrip() for line in file]'''
+    # with open('testinput5a.txt', 'r') as file:
+    #     rules = [line.rstrip() for line in file]
+    # with open('testinput5b.txt', 'r') as file:
+    #     updates = [line.rstrip() for line in file]
         
     return rules, updates
     
@@ -54,34 +54,41 @@ def purgeInOrder(ruleDict, updates):
     return updates
 
 def fixOrder(ruleDict, outOfOrder):
-    
-    
+    orderedUpdates = []
+
     for rowIndex, row in enumerate(outOfOrder):
         nums = [int(x) for x in row.split(",")] #each update as list of ints
-        orderedUpdates = [None] * len(nums)
+
         ListSorted = False
 
         while ListSorted == False:
             
             ListSorted = True
             for ind, pageNum in enumerate(nums):
-                orderedUpdates[ind] = pageNum
+                restart = False
+                #orderedUpdates[ind] = pageNum
                 
                 try: 
-                     for j in range(ind+1, len(nums)):
+                      for j in range(ind+1, len(nums)):
                         if nums[j] not in ruleDict[pageNum]:
                             ListSorted = False
-                            orderedUpdates[ind] = nums[j]
+                            nums[ind] = nums[j]
+                            nums[j] = pageNum
+                            restart = True
+                            break
                 except KeyError:
-                    orderedUpdates[len(nums)-1] = pageNum #If not listed in the rules, put at the end
+                    nums[ind] = nums[len(nums)-1] 
+                    nums[len(nums)-1] = pageNum #If not listed in the rules, put at the end
                     ListSorted = False
-                    for j in range(ind+1, len(nums)):
-                        orderedUpdates[j-1] = nums[j]
+                    #for j in range(ind+1, len(nums)):
+                    #    nums[j-1] = nums[j]
+                    #break
+                if restart == True:
                     break
                         
-        nums = orderedUpdates
+            #nums = orderedUpdates
                     
-        orderedUpdates.append(updateList)
+        orderedUpdates.append(nums)
         
     return orderedUpdates
                         
