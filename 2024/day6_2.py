@@ -17,7 +17,7 @@ def findStartAndBlocks(labMap):
                 blockCoords.append([rowInd, colInd])
     return startCoord, blockCoords
     
-def moveGuard(currCoord, faceDir, blockCoords):
+def moveGuard(currCoord, faceDir, blockCoords, locLog, labMap, **kwargs):
     match faceDir:
         case "up":
             moveDir = [-1,0] 
@@ -28,22 +28,25 @@ def moveGuard(currCoord, faceDir, blockCoords):
         case "right":
             moveDir = [0,1] 
     
-    newRow = list(labMap[currCoord[0]])
-    newRow[currCoord[1]] = "X"
-    labMap[currCoord[0]] = "".join(newRow)
+    #newRow = list(labMap[currCoord[0]])
+    #newRow[currCoord[1]] = "X"
+    #labMap[currCoord[0]] = "".join(newRow)
 
     # Element-wise addition
     newCoord = [a + b for a, b in zip(currCoord, moveDir)]
     
-    if checkExit(newCoord, len(labMap), len(labMap[0])):
-        return newCoord, faceDir, labMap, True
+    if checkLoop(newCoord, faceDir, locLog):
+        return {newCoord, faceDir, looped := False, exited := True
     
-    elif labMap[newCoord[0]][newCoord[1]] == "#":
+    elif checkExit(newCoord, len(labMap), len(labMap[0])):
+        return {newCoord, faceDir, looped := False, exited := True
+    
+    elif newCoord in blockCoords:
         faceDir = turnGuard(faceDir)
-        return currCoord, faceDir, labMap, False
+        return {currCoord, faceDir, looped := False, exited := False
         
     else:
-        return newCoord, faceDir, labMap, False
+        return {newCoord, faceDir, False
         
     
 def checkExit(coord, lenRow, lenCol):
@@ -53,7 +56,9 @@ def checkExit(coord, lenRow, lenCol):
         return True
     else:
         return False
-    
+
+
+
 def turnGuard(faceDir):
     match faceDir:
         case "up":
@@ -72,13 +77,13 @@ def turnGuard(faceDir):
 if __name__ == "__main__":
     exited = False
     labMap = getInput()
-    currCoord, blockCoords = findStart(labMap)
-    faceDir = "up"
+    startCoord, blockCoords = findStartAndBlocks(labMap)
+    
     
     #getInitialPath
-    Initialpath()
+    initialRun = {'currCoord'=startCoord, 'faceDir' = "up", 'blockCoords'=blockCoords, 'locLog'=[], 'labMap'=labMap}
     while not exited:
-        currCoord, faceDir, labMap, exited = moveGuard(currCoord, faceDir, blockCoords)
+        initialRun = moveGuard(**initialRun)
         
     print()
         
