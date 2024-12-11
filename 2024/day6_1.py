@@ -1,5 +1,3 @@
-import time
-
 def getInput():
     with open('input6.txt', 'r') as file:
         labMap = [line.rstrip() for line in file]
@@ -81,8 +79,6 @@ if __name__ == "__main__":
     
     while not exited:
         currCoord, faceDir, labMap, exited = moveGuard(currCoord, faceDir, labMap)
-        #print(labMap)
-        #time.sleep(0.5)
     
     print(countXs(labMap))
         
