@@ -1,6 +1,6 @@
 def getInput():
-    with open('input8.txt', 'r') as file:
-        cityMap = [line.rstrip() for line in file]
+    #with open('input8.txt', 'r') as file:
+    #    cityMap = [line.rstrip() for line in file]
     #with open('testinput8.txt', 'r') as file:
     #    cityMap = [line.rstrip() for line in file]
 
@@ -77,7 +77,8 @@ if __name__ == "__main__":
     antinodes = set(nodes)
     
     for node in antinodes:
-        if checkOnMap(node):
+        if checkOnMap(node, cityMap):
             locCount += 1
     
     print(locCount)
+    #returns 17 for test input, should be 14. 
