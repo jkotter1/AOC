@@ -2,31 +2,33 @@ import math
 from more_itertools import distinct_permutations as idp
 
 def getInput():
-    with open('input7.txt', 'r') as file:
+    with open('2024/input7.txt', 'r') as file:
         calib = [line.rstrip() for line in file]
-    with open('testinput7.txt', 'r') as file:
+    with open('2024/testinput7.txt', 'r') as file:
        calib = [line.rstrip() for line in file]
     
-    #calib = ["190: 10 19","3267: 81 40 27","83: 17 5","156: 15 6","7290: 6 8 6 15","161011: 16 10 13","192: 17 8 14","21037: 9 7 18 13","292: 11 6 16 20"]
+    calib = ["190: 10 19","3267: 81 40 27","40: 17 5 18","156: 15 6","7290: 6 8 6 15","161011: 16 10 13","192: 17 8 14","21037: 9 7 18 13","292: 11 6 16 20"]
     
-    cal = {}
+    cal = []
     for line in calib:
+        testVal = int(line.split(":")[0])
         nums = line.split(":")[1].split(" ")[1:]
-        cal[int(line.split(":")[0])] = [int(i) for i in nums]
+        cal += [testVal, [int(i) for i in nums]]
 
     return cal
 
 def tryCalcs(cal):
     calSum = False
 
-    
+    cc = 0
     for val in cal:
-        cc = 1
-        print("Calculation "+str(cc)+" of "+str(len(cal)))
-        nums = cal[val]
-        if val == math.prod(nums):
-                calSum += val
-                
+        cc += 1
+        print("Calculation " + str(cc) + " of " + str(len(cal)))
+        testVal = val[0]
+        nums = val[1]
+        
+        if testVal == math.prod(nums):
+                calSum += testVal         
         else:       
             for ind, i in enumerate(nums):
                 opLog = []
