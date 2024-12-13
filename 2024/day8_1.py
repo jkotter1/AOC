@@ -4,6 +4,21 @@ def getInput():
     #with open('testinput8.txt', 'r') as file:
     #    cityMap = [line.rstrip() for line in file]
 
+    cityMap = [
+        "............",
+        "........0...",
+        ".....0......",
+        ".......0....",
+        "....0.......",
+        "......A.....",
+        "............",
+        "............",
+        "........A...",
+        ".........A..",
+        "............",
+        "............"
+    ]
+    
     return cityMap
     
 def findAntennas(cityMap):
@@ -18,51 +33,51 @@ def findAntennas(cityMap):
     
     return antennas #list of paired coords as tuples
     
-def findNodes(antennas, cityMap):
+def findAntinodes(antennas):
     nodes=[]
     
     for freq in antennas:
         ants = antennas[freq]
         for antInd, ant in enumerate(ants):
             for i in range(antInd+1, len(ants)):
-                nodes += calcNodes(ants[antInd], ants[i])
+                nodes += calcAntinodes(ants[antInd], ants[i])
 
-def calcNodes(coord1, coord2):
+    return nodes
+
+def calcAntinodes(coord1, coord2):
     x1 = coord1[0]
     y1 = coord1[1]
     x2 = coord2[0]
     y2 = coord2[1]
 
-    slope = (y2 - y1)/(x2 - x1) 
-    
-    yInt = y1 - slope * x1
-    
-    distBetween = sqrt((x2 - x1)^2 + (y2 - y1)^2)
-    
-    distToNode = distBetween / 2
-    
-    node1x = x1 - distToNode * slope
+    x3 = x1 - (x2 - x1)/2
+    x4 = x2 + (x2 - x1)/2
 
+    y3 = y1 - (y2 - y1)/2
+    y4 = y2 + (y2 - y1)/2
+    
+    return [(x3,y3), (x4,y4)]
 
-#old day6_1 code below
-def checkExit(coord, lenRow, lenCol):
-    if -1 in coord: #off top or left of map
-        return True
-    elif lenRow in coord or lenCol in coord:
-        return True
-    else:
+def checkOnMap(coord, cityMap):
+    x,y = coord
+    
+    if x<0 or y<0: #off top or left of map
         return False
-    
-
-
+    elif x >= len(cityMap[0]) or y >= len(cityMap):
+        return False
+    else:
+        return True
+        
     
 if __name__ == "__main__":
-    exited = False
-    labMap = getInput()
-    currCoord = findStart(labMap)
-    faceDir = "up"
+    locCount = 0
+    cityMap = getInput()
+    antennas = findAntennas(cityMap)
+    nodes = findAntinodes(antennas)
+    antinodes = set(nodes)
     
-    while not exited:
-        currCoord, faceDir, labMap, exited = moveGuard(currCoord, faceDir, labMap)
+    for node in antinodes:
+        if checkOnMap(node):
+            locCount += 1
     
-    print(countXs(labMap))
+    print(locCount)
