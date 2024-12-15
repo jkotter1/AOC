@@ -4,21 +4,21 @@ from more_itertools import distinct_permutations as idp
 def getInput():
     with open('2024/input7.txt', 'r') as file:
         calib = [line.rstrip() for line in file]
-    with open('2024/testinput7.txt', 'r') as file:
-       calib = [line.rstrip() for line in file]
+    # with open('2024/testinput7.txt', 'r') as file:
+    #    calib = [line.rstrip() for line in file]
     
-    calib = ["190: 10 19","3267: 81 40 27","40: 17 5 18","156: 15 6","7290: 6 8 6 15","161011: 16 10 13","192: 17 8 14","21037: 9 7 18 13","292: 11 6 16 20"]
+    # calib = ["190: 10 19","3267: 81 40 27","83: 17 5","156: 15 6","7290: 6 8 6 15","161011: 16 10 13","192: 17 8 14","21037: 9 7 18 13","292: 11 6 16 20"]
     
     cal = []
     for line in calib:
         testVal = int(line.split(":")[0])
         nums = line.split(":")[1].split(" ")[1:]
-        cal += [testVal, [int(i) for i in nums]]
+        cal += [[testVal, [int(i) for i in nums]]]
 
     return cal
 
 def tryCalcs(cal):
-    calSum = False
+    calSum = 0
 
     cc = 0
     for val in cal:
@@ -42,15 +42,15 @@ def tryCalcs(cal):
                     else:
                         opLog.append(perm)
 
-                    runningCalc = cal[val][0]
+                    runningCalc = nums[0]
                     
                     for opInd, op in enumerate(perm):
                         if op =="+":
                             runningCalc += nums[opInd+1]
                         elif op == "*":
                             runningCalc *= nums[opInd+1]
-                    if runningCalc == val:
-                        calSum += val
+                    if runningCalc == testVal:
+                        calSum += testVal
                         stopCalcs = True
                         break
                 
