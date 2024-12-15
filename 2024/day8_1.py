@@ -1,10 +1,10 @@
 def getInput():
-    #with open('input8.txt', 'r') as file:
-    #    cityMap = [line.rstrip() for line in file]
-    #with open('testinput8.txt', 'r') as file:
-    #    cityMap = [line.rstrip() for line in file]
+    with open('2024/input8.txt', 'r') as file:
+        cityMap = [line.rstrip() for line in file]
+    # with open('testinput8.txt', 'r') as file:
+    #     cityMap = [line.rstrip() for line in file]
 
-    cityMap = [
+    '''cityMap = [
         "............",
         "........0...",
         ".....0......",
@@ -17,7 +17,7 @@ def getInput():
         ".........A..",
         "............",
         "............"
-    ]
+    ]'''
     
     return cityMap
     
