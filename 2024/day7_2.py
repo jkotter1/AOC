@@ -51,11 +51,14 @@ def tryCalcs(cal):
                                 runningCalc += nums[opInd+1]
                             elif op == "*":
                                 runningCalc *= nums[opInd+1]
+                            elif op == "||":
+                                runningCalc = int(str(runningCalc) + str(nums[opInd+1]))
                         if runningCalc == val:
                             calSum += val
                             stopCalcs = True
                             break
-                
+                    if stopCalcs:
+                        break
                 if stopCalcs:
                     break
     return calSum
